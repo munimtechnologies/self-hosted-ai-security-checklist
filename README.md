@@ -13,7 +13,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 3. **The first account is the admin.** Open WebUI's first sign-up, Dify's `/install` page and n8n's owner setup all go to whoever gets there first. Finish setup before the server is reachable from the network.
 4. **Your config file outlived the default.** `cp .env.example .env` happens once; upgrades don't touch it. Dify installs from before 1.15.0 can still carry the `SECRET_KEY` that the example file published (see [Dify](#dify)). Open WebUI stores many settings in its database after the first start, so later env changes are ignored (see [Open WebUI](#open-webui)).
 5. **CORS `*` is a common default** (Langflow, Dify's console, Open WebUI). If you sign in from a browser, set it to your own address.
-6. **Many 2026 advisories have no CVE ID** (Open WebUI, n8n, vLLM, Flowise, RAGFlow). CVE-only scanners and `npm audit`/`pip-audit` can miss them. Compare your version against the project's GitHub security advisories, or use the [CVE checker](https://munimv2.github.io/).
+6. **Many 2026 advisories have no CVE ID** (Open WebUI, n8n, vLLM, Flowise, RAGFlow), and some projects stop shipping fixes at all (Flowise was archived in August 2026). CVE-only scanners and `npm audit`/`pip-audit` can miss them. Compare your version against the project's GitHub security advisories, or use the [CVE checker](https://munimv2.github.io/).
 
 ## Ollama
 
@@ -47,11 +47,11 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 ## vLLM
 
 - **`vllm serve` listens on every interface by default** (`--host` unset). Pass `--host 127.0.0.1`.
-- **`--api-key` only covers `/v1`, `/v2`, `/inference` and `/cohere`.** vLLM's own security guide says other routes, such as `/invocations`, `/pooling`, `/score`, `/tokenize`, `/pause`, `/resume` and `/abort_requests`, have no authentication. Put a proxy in front that allows only the routes your apps use.
+- **`--api-key` only covers `/v1`, `/v2`, `/inference` and `/cohere`.** vLLM's own security guide says other routes, such as `/invocations`, `/pooling`, `/score`, `/tokenize`, `/pause`, `/resume` and `/abort_requests`, have no authentication. Put a proxy in front that allows only the routes your apps use: [docs/vllm-api-key.md](docs/vllm-api-key.md).
 - **Pass the key as `VLLM_API_KEY`**, not on the command line where `ps` shows it. Add `--disable-fastapi-docs`. Never set `VLLM_SERVER_DEV_MODE=1` on a reachable server.
 - **Update:** the October 2026 batch of advisories needs 0.31.0.
 - **Test:** `curl --max-time 5 http://<LAN IP>:8000/version` from another device should fail to connect. Through your proxy, `POST /invocations` without a key should get 401 or 404, not 200.
-- Guide: [Lock down vLLM](https://munimv2.github.io/vllm-api-key.html)
+- Guides: [vLLM --api-key doesn't cover every endpoint (in this repo)](docs/vllm-api-key.md) · [Lock down vLLM](https://munimv2.github.io/vllm-api-key.html) · [vLLM advisories](https://munimv2.github.io/vllm.html)
 
 ## LiteLLM proxy
 
@@ -60,7 +60,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - **The master key is the Admin UI password** unless you set `UI_PASSWORD`. Create admin users, then set `disable_env_credential_login: true`.
 - **Set `LITELLM_SALT_KEY` before you store any credential, and never change it.** Without it, LiteLLM encrypts stored provider keys with the master key.
 - **Leave stdio MCP servers off** (`LITELLM_ENABLE_MCP_STDIO` unset).
-- Guide: [LiteLLM hardening checklist](https://munimv2.github.io/litellm-hardening.html)
+- Guides: [LiteLLM hardening (in this repo)](docs/litellm-hardening.md) · [LiteLLM hardening checklist](https://munimv2.github.io/litellm-hardening.html)
 
 ## ComfyUI
 
@@ -101,9 +101,11 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 
 ## Flowise
 
-- **The latest release, 3.1.4, has advisories with no fix yet** (10 September 2026 batch, one critical: cross-IdP account takeover via email-only SSO matching, GHSA-cffm-583c-vffr). Being up to date isn't enough here.
-- **Until a fix ships:** keep Flowise off the public internet (VPN or an authenticating proxy), don't share an instance across workspaces or teams you don't trust, and review whether SSO sign-in is needed.
-- Advisories: [Flowise page](https://munimv2.github.io/flowise.html)
+- **Flowise is archived.** Code freeze 29 July 2026, repository archived 13 August, core team gone after 31 August; its SECURITY.md no longer takes vulnerability reports. **3.1.4 is the final release.**
+- **Six advisories from 10 September 2026 affect 3.1.4 and will get no official fix**, two of them critical: SSO account and invitation takeover by email match (GHSA-cffm-583c-vffr, GHSA-vf3j-89vf-r697), plus four cross-workspace authorization bugs. Fixes matching two of them (upsert history #6680, BullMQ dashboard #6713) were merged to the archived `main` after 3.1.4 but never released.
+- **While you still run it:** be on 3.1.4; use one strictly email-verifying SSO provider, or none; one instance per team you trust; block `/admin/queues` at the proxy in queue mode; publish port 3000 as `127.0.0.1:3000:3000` and keep it off the public internet.
+- **Plan a move** (Langflow, Dify and n8n are maintained; none imports Flowise flows). Back up the `.flowise` data folder with its secret key first. Vet any community fork before trusting it with your provider keys.
+- Status and advisories: [Flowise is archived: what to do](https://munimv2.github.io/flowise.html)
 
 ## RAGFlow
 
@@ -123,6 +125,8 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 ## Guides in this repo
 
 - [Ollama API key: your local Ollama has none](docs/ollama-api-key.md): Caddy and nginx Bearer-key configs, tests including the bypass, and client settings for n8n, Open WebUI, the OpenAI SDK and ollama-python.
+- [vLLM `--api-key` doesn't cover every endpoint](docs/vllm-api-key.md): the routes it leaves open, an allowlist proxy for Caddy or nginx, and tests.
+- [LiteLLM proxy hardening](docs/litellm-hardening.md): the master key as Admin UI password, `LITELLM_SALT_KEY`, `EXPERIMENTAL_UI_LOGIN`, stdio MCP, and keeping port 4000 private.
 - [Open WebUI: ENABLE_SIGNUP=false and sign-up still open](docs/openwebui-signup-still-open.md): which settings are stored in the database, a one-line check, three fixes.
 - [Dify: the SECRET_KEY your upgraded .env may still have](docs/dify-secret-key.md): a 10-second check and how to replace it.
 
