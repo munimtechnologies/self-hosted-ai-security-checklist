@@ -13,7 +13,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 3. **The first account is the admin.** Open WebUI's first sign-up, Dify's `/install` page and n8n's owner setup all go to whoever gets there first. Finish setup before the server is reachable from the network.
 4. **Your config file outlived the default.** `cp .env.example .env` happens once; upgrades don't touch it. Dify installs from before 1.15.0 can still carry the `SECRET_KEY` that the example file published (see [Dify](#dify)). Open WebUI stores many settings in its database after the first start, so later env changes are ignored (see [Open WebUI](#open-webui)).
 5. **CORS `*` is a common default** (Langflow, Dify's console, Open WebUI). If you sign in from a browser, set it to your own address.
-6. **Many 2026 advisories have no CVE ID** (Open WebUI, n8n, vLLM, Flowise, RAGFlow), and some projects stop shipping fixes at all (Flowise was archived in August 2026). CVE-only scanners and `npm audit`/`pip-audit` can miss them. Compare your version against the project's GitHub security advisories, or use the [CVE checker](https://munimv2.github.io/).
+6. **Many 2026 advisories have no CVE ID** (Open WebUI, n8n, vLLM, Flowise, RAGFlow), some vulnerability databases get the fixed version wrong (OSV.dev marks Flowise 3.1.4 as fixed for two critical CVEs; it isn't), and some projects stop shipping fixes at all (Flowise was archived in August 2026). CVE-only scanners and `npm audit`/`pip-audit` can miss them. Compare your version against the project's GitHub security advisories, or use the [CVE checker](https://munimv2.github.io/).
 
 ## Ollama
 
@@ -69,7 +69,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - **From a phone:** leave ComfyUI on localhost and run `tailscale serve --bg 8188`. Never `tailscale funnel` it, and never forward 8188 on the router.
 - **Don't add `--enable-cors-header`** unless you must: it replaces ComfyUI's cross-site check.
 - **Test:** `ss -tlnp | grep 8188` should show `127.0.0.1:8188` (plus only the address you named).
-- Guide: [ComfyUI --listen safely](https://munimv2.github.io/comfyui-listen.html)
+- Guides: [ComfyUI --listen safely (in this repo)](docs/comfyui-listen.md) · [ComfyUI --listen safely (site)](https://munimv2.github.io/comfyui-listen.html)
 
 ## n8n
 
@@ -97,15 +97,16 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - **Don't swap `LANGFLOW_SECRET_KEY` on an existing install.** Stored credentials are encrypted with it; use the migration script from Langflow's SECURITY.md.
 - **Every account that can edit flows can run Python on the host.** On shared servers, consider `LANGFLOW_ALLOW_CUSTOM_COMPONENTS=False` (beta) and `LANGFLOW_CONNECTOR_SSRF_ALLOW_LOOPBACK=False`.
 - **Update to 1.12.5.** Before 1.10.3, MCP server settings allow OS command execution (GHSA-w794-rj3p-xv45, critical).
-- Guide: [Langflow hardening checklist](https://munimv2.github.io/langflow-hardening.html)
+- Guides: [Langflow auto-login: check and turn it off (in this repo)](docs/langflow-auto-login.md) · [Langflow hardening checklist](https://munimv2.github.io/langflow-hardening.html)
 
 ## Flowise
 
 - **Flowise is archived.** Code freeze 29 July 2026, repository archived 13 August, core team gone after 31 August; its SECURITY.md no longer takes vulnerability reports. **3.1.4 is the final release.**
-- **Six advisories from 10 September 2026 affect 3.1.4 and will get no official fix**, two of them critical: SSO account and invitation takeover by email match (GHSA-cffm-583c-vffr, GHSA-vf3j-89vf-r697), plus four cross-workspace authorization bugs. Fixes matching two of them (upsert history #6680, BullMQ dashboard #6713) were merged to the archived `main` after 3.1.4 but never released.
+- **Six advisories from 10 September 2026 affect 3.1.4 and will get no official fix**, two of them critical: SSO account and invitation takeover by email match (GHSA-cffm-583c-vffr / CVE-2026-100607, GHSA-vf3j-89vf-r697 / CVE-2026-100606), plus four cross-workspace authorization bugs. Fixes matching two of them (upsert history #6680, BullMQ dashboard #6713) were merged to the archived `main` after 3.1.4 but never released.
+- **Your scanner may call 3.1.4 clean.** None of the six GHSA IDs is in the GitHub Advisory Database or OSV.dev, and OSV.dev's records for the two CVEs list the 3.1.4 release commit as the "fix".
 - **While you still run it:** be on 3.1.4; use one strictly email-verifying SSO provider, or none; one instance per team you trust; block `/admin/queues` at the proxy in queue mode; publish port 3000 as `127.0.0.1:3000:3000` and keep it off the public internet.
 - **Plan a move** (Langflow, Dify and n8n are maintained; none imports Flowise flows). Back up the `.flowise` data folder with its secret key first. Vet any community fork before trusting it with your provider keys.
-- Status and advisories: [Flowise is archived: what to do](https://munimv2.github.io/flowise.html)
+- Guides: [Flowise is archived (in this repo)](docs/flowise-archived.md) · [Flowise is archived: what to do](https://munimv2.github.io/flowise.html)
 
 ## RAGFlow
 
@@ -129,6 +130,9 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - [LiteLLM proxy hardening](docs/litellm-hardening.md): the master key as Admin UI password, `LITELLM_SALT_KEY`, `EXPERIMENTAL_UI_LOGIN`, stdio MCP, and keeping port 4000 private.
 - [Open WebUI: ENABLE_SIGNUP=false and sign-up still open](docs/openwebui-signup-still-open.md): which settings are stored in the database, a one-line check, three fixes.
 - [Dify: the SECRET_KEY your upgraded .env may still have](docs/dify-secret-key.md): a 10-second check and how to replace it.
+- [Langflow auto-login](docs/langflow-auto-login.md): a one-request check, the `.env` that turns it off, CORS, the secret key and port 7860.
+- [Flowise is archived](docs/flowise-archived.md): the six advisories that will never be fixed, why scanners miss them (including OSV.dev's wrong "fixed" commit), mitigations and planning a move.
+- [ComfyUI `--listen` safely](docs/comfyui-listen.md): what bare `--listen` binds, naming addresses, Tailscale Serve from a phone, `--enable-cors-header`, the "non matching host and origin" 403 and ComfyUI-Manager.
 
 ## Check it automatically
 
