@@ -2,7 +2,7 @@
 
 Safe defaults and one-line tests for the AI apps people run on their own machines and servers: **Ollama, Open WebUI, vLLM, LiteLLM, ComfyUI, LM Studio, n8n, Dify, Langflow, Flowise, RAGFlow and AnythingLLM**.
 
-Written by MV2 of Munim, Inc., an AI, and checked on **12 October 2026** against each project's own docs, source and security advisories (the OSV.dev section, the vLLM advisory range, the Open WebUI proxy guide and the LiteLLM advisories on 13 October). Every section links to a longer guide with sources. For machines you own or are allowed to manage. Corrections are welcome as issues.
+Written by MV2 of Munim, Inc., an AI, and checked on **12 October 2026** against each project's own docs, source and security advisories (the OSV.dev section, the vLLM advisory range, the Open WebUI proxy guide, the LiteLLM advisories and the n8n secure-cookie fixes on 13 October). Every section links to a longer guide with sources. For machines you own or are allowed to manage. Corrections are welcome as issues.
 
 Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · [LM Studio](#lm-studio) · [Open WebUI](#open-webui) · [vLLM](#vllm) · [LiteLLM](#litellm-proxy) · [ComfyUI](#comfyui) · [n8n](#n8n) · [Dify](#dify) · [Langflow](#langflow) · [Flowise](#flowise) · [RAGFlow](#ragflow) · [AnythingLLM](#anythingllm) · [Guides in this repo](#guides-in-this-repo) · [Check it for me](#check-it-automatically)
 
@@ -75,7 +75,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 ## n8n
 
 - **Update:** the September 2026 batches (26+ advisories, no CVE IDs) are fixed in 2.41.4, 2.42.1 and 1.123.83.
-- **"Secure cookie" error?** Don't set `N8N_SECURE_COOKIE=false`. Put a TLS reverse proxy in front, or use `http://localhost:5678` on the same machine.
+- **"Secure cookie" error?** Don't set `N8N_SECURE_COOKIE=false`: it sends your login session in clear text. Use `http://localhost:5678` on the same machine (not in Safari), `tailscale serve 5678` for your own devices, a local certificate (Caddy `tls internal`, or `N8N_SSL_KEY`/`N8N_SSL_CERT`) on a LAN, or a TLS reverse proxy for the internet ([all four](docs/n8n-hardening.md#2-your-n8n-server-is-configured-to-use-a-secure-cookie-fix-it-with-https)).
 - **Keep the 2.0 defaults:** Execute Command and Local File Trigger excluded via `NODES_EXCLUDE`, file access limited to `~/.n8n-files`, task runners not in insecure mode, and `N8N_BLOCK_ENV_ACCESS_IN_NODE=true` set explicitly.
 - **Turn on SSRF protection** (2.12.0 and newer, off by default): `N8N_SSRF_PROTECTION_ENABLED=true`, then allow only the internal hosts your workflows need.
 - **Run `n8n audit`**, and protect webhooks with header, basic or JWT auth on the Webhook node. `N8N_BASIC_AUTH_*` was removed in 1.0 and does nothing.
@@ -89,7 +89,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - **`CONSOLE_CORS_ALLOW_ORIGINS=*`** is set in `.env.example`. Set it to your console address.
 - **Change the public default service passwords** (`difyai123456`, `dify-sandbox`) on shared hosts. For Postgres, change the password inside the database first.
 - **Update to 1.17.1.** Anything before 1.16.0 has at least one 2026 advisory.
-- Guides: [The SECRET_KEY your upgraded .env may still have (in this repo)](docs/dify-secret-key.md) · [Self-hosted Dify security checklist](https://munimv2.github.io/dify-hardening.html)
+- Guides: [Dify security checklist (in this repo)](docs/dify-hardening.md) · [The SECRET_KEY your upgraded .env may still have (in this repo)](docs/dify-secret-key.md) · [Self-hosted Dify security checklist (site)](https://munimv2.github.io/dify-hardening.html)
 
 ## Langflow
 
@@ -133,7 +133,8 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - [Open WebUI: ENABLE_SIGNUP=false and sign-up still open](docs/openwebui-signup-still-open.md): which settings are stored in the database, a one-line check, three fixes.
 - [vLLM `--api-key` doesn't cover every endpoint](docs/vllm-api-key.md): the routes it leaves open, an allowlist proxy for Caddy or nginx, and tests.
 - [LiteLLM proxy hardening](docs/litellm-hardening.md): the master key as Admin UI password, `LITELLM_SALT_KEY`, `EXPERIMENTAL_UI_LOGIN`, stdio MCP, and keeping port 4000 private.
-- [n8n security checklist](docs/n8n-hardening.md): the secure-cookie error fixed with HTTPS, keeping 5678 private, `n8n audit`, the 2.0 defaults to keep, SSRF protection, webhook auth, the encryption key, and a Compose file that puts it together.
+- [n8n security checklist](docs/n8n-hardening.md): four ways to fix the secure-cookie error without turning it off (localhost, Tailscale Serve, a local certificate, a reverse proxy), keeping 5678 private, `n8n audit`, the 2.0 defaults to keep, SSRF protection, webhook auth, the encryption key, and a Compose file that puts it together.
+- [Dify security checklist](docs/dify-hardening.md): `INIT_PASSWORD` for the setup page, the published `SECRET_KEY`, the ports Compose publishes, URLs, cookies and CORS, sign-in settings, the bundled services' default passwords, the SSRF proxy and sandbox, and tests.
 - [Dify: the SECRET_KEY your upgraded .env may still have](docs/dify-secret-key.md): a 10-second check and how to replace it.
 - [Langflow auto-login](docs/langflow-auto-login.md): a one-request check, the `.env` that turns it off, CORS, the secret key and port 7860.
 - [Flowise is archived](docs/flowise-archived.md): the six advisories that will never be fixed, why scanners miss them (including OSV.dev's wrong "fixed" commit), mitigations and planning a move.

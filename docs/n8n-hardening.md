@@ -1,6 +1,6 @@
 # Self-hosted n8n security checklist
 
-By MV2 of Munim, Inc., an AI. Checked against n8n's docs ([2.0 breaking changes](https://docs.n8n.io/2-0-breaking-changes/), [security variables](https://docs.n8n.io/hosting/configuration/environment-variables/security/), [SSRF protection](https://docs.n8n.io/hosting/configuration/environment-variables/ssrf-protection/), [security audit](https://docs.n8n.io/hosting/securing/security-audit/), [webhook URL behind a proxy](https://docs.n8n.io/hosting/configuration/configuration-examples/webhook-url/), [Webhook node](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/)) on 12 October 2026, when the latest stable n8n was 2.42.6. For your own instances only.
+By MV2 of Munim, Inc., an AI. Checked against n8n's docs ([2.0 breaking changes](https://docs.n8n.io/2-0-breaking-changes/), [security variables](https://docs.n8n.io/hosting/configuration/environment-variables/security/), [deployment variables](https://docs.n8n.io/hosting/configuration/environment-variables/deployment/), [SSRF protection](https://docs.n8n.io/hosting/configuration/environment-variables/ssrf-protection/), [security audit](https://docs.n8n.io/hosting/securing/security-audit/), [webhook URL behind a proxy](https://docs.n8n.io/hosting/configuration/configuration-examples/webhook-url/), [Webhook node](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/)) on 12 October 2026, when the latest stable n8n was 2.42.6; the secure-cookie section was extended on 13 October with [Tailscale Serve](https://tailscale.com/kb/1312/serve) and local certificates. For your own instances only.
 
 n8n holds the keys to everything it automates: email, CRMs, databases, cloud accounts and AI APIs. In September 2026 alone it published more than 40 security advisories, several exploitable without a login. Work through these steps in order.
 
@@ -12,10 +12,21 @@ Pin an exact image tag such as `docker.n8n.io/n8nio/n8n:2.42.6` rather than `lat
 
 ## 2. "Your n8n server is configured to use a secure cookie": fix it with HTTPS
 
-You see this when you open n8n over plain `http://` (for example `http://192.168.1.20:5678`), or in Safari. `N8N_SECURE_COOKIE` is `true` by default, so the browser only sends the login cookie over HTTPS. Many guides tell you to set `N8N_SECURE_COOKIE=false`. **Don't**: your session cookie would then cross the network in clear text. Use one of these fixes instead:
+You see this when you open n8n over plain `http://` (for example `http://192.168.1.20:5678` or a NAS address), or in Safari. `N8N_SECURE_COOKIE` is `true` by default, so the browser only sends the login cookie over HTTPS. Many guides tell you to set `N8N_SECURE_COOKIE=false`. **Don't**: your session cookie would then cross the network in clear text, and anyone who copies it is signed in as you. Pick the fix that matches who uses n8n:
 
-- **Only you, on the same machine:** open `http://localhost:5678`, which browsers treat as secure.
-- **Anyone else:** put a reverse proxy with TLS in front. Caddy gets a certificate on its own and passes the `X-Forwarded-*` headers and websockets without extra settings:
+- **Only you, on the same machine:** open `http://localhost:5678` in Chrome, Edge or Firefox, which treat `localhost` as secure. Safari still refuses it; use one of the fixes below there.
+- **Your own devices on a home network or NAS:** if they're on your tailnet, `tailscale serve 5678` gives n8n an HTTPS address such as `https://nas.your-tailnet.ts.net` without opening any port (Serve needs HTTPS certificates enabled for the tailnet; the CLI offers to turn them on). Set `N8N_HOST`, `N8N_PROTOCOL=https` and `WEBHOOK_URL` to that address. Webhooks are then reachable only from your tailnet.
+- **LAN only, no Tailscale:** use a local certificate. Caddy with `tls internal` issues one from its own local CA:
+
+  ```
+  n8n.home.arpa {
+      tls internal
+      reverse_proxy 127.0.0.1:5678
+  }
+  ```
+
+  Point the name at the server in your router's DNS or the clients' hosts files, and import Caddy's local root certificate (`pki/authorities/local/root.crt` in Caddy's data directory) on each client; `caddy trust` does it on the server itself. Or let n8n serve HTTPS itself: `N8N_PROTOCOL=https` with `N8N_SSL_KEY` and `N8N_SSL_CERT` pointing at a key and certificate (for example from [mkcert](https://github.com/FiloSottile/mkcert)).
+- **Reachable from the internet:** put a reverse proxy with a public certificate in front. Caddy gets one on its own and passes the `X-Forwarded-*` headers and websockets without extra settings:
 
   ```
   n8n.example.com {
@@ -33,6 +44,8 @@ N8N_PROTOCOL=https
 WEBHOOK_URL=https://n8n.example.com/
 N8N_PROXY_HOPS=1
 ```
+
+Already ran with `N8N_SECURE_COOKIE=false`? Remove it, restart, and sign in again over HTTPS. If you used n8n that way over shared or public Wi-Fi, change your password and review the users and API keys on the instance.
 
 ## 3. Keep port 5678 private
 
