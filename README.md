@@ -9,7 +9,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 ## Six rules that cover most of it
 
 1. **`docker run -p 11434:11434` publishes the port on every interface, and on Linux it skips ufw and firewalld.** Write `-p 127.0.0.1:11434:11434`, or give the service no `ports:` at all and let other containers reach it by service name on the Compose network.
-2. **Many of these apps have no login at all** (Ollama, ComfyUI, an LM Studio server without its auth setting, Langflow with auto-login). For them, "who can reach the port" is the only access control. Keep them on `127.0.0.1` and use an SSH tunnel, Tailscale or an authenticating reverse proxy to reach them from elsewhere. Don't set `0.0.0.0` just to make another device or a container connect.
+2. **Many of these apps have no login at all** (Ollama, ComfyUI, an LM Studio server without its auth setting, Langflow with auto-login). For them, "who can reach the port" is the only access control. Keep them on `127.0.0.1` and use an SSH tunnel, Tailscale or an authenticating reverse proxy to reach them from elsewhere ([how](docs/ollama-remote-access.md)). Don't set `0.0.0.0` just to make another device or a container connect.
 3. **The first account is the admin.** Open WebUI's first sign-up, Dify's `/install` page and n8n's owner setup all go to whoever gets there first. Finish setup before the server is reachable from the network.
 4. **Your config file outlived the default.** `cp .env.example .env` happens once; upgrades don't touch it. Dify installs from before 1.15.0 can still carry the `SECRET_KEY` that the example file published (see [Dify](#dify)). Open WebUI stores many settings in its database after the first start, so later env changes are ignored (see [Open WebUI](#open-webui)).
 5. **CORS `*` is a common default** (Langflow, Dify's console, Open WebUI). If you sign in from a browser, set it to your own address.
@@ -21,17 +21,17 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - **Gets exposed by:** `OLLAMA_HOST=0.0.0.0`, the app's "Expose Ollama to the network" setting, or Docker's `-p 11434:11434`.
 - **Update:** CVE-2026-103663 (path traversal in `/api/pull`) affects 0.34.2 up to 0.35.0. Latest is 0.40.3.
 - **Test** (from another device): `curl --max-time 5 http://<LAN IP>:11434/api/version`. A version number in the reply means it's open to your network.
-- **Need it from elsewhere?** SSH tunnel (`ssh -L 11434:127.0.0.1:11434 you@host`), or Open WebUI over Tailscale Serve. A plain `tailscale serve 11434` in front of a loopback Ollama returns 403, because Ollama checks the Host header.
+- **Need it from elsewhere?** SSH tunnel (`ssh -L 11434:127.0.0.1:11434 you@host`), or Open WebUI over Tailscale Serve. A plain `tailscale serve 11434` in front of a loopback Ollama returns 403, because Ollama checks the Host header; bind Ollama to its Tailscale IP instead ([docs/ollama-remote-access.md](docs/ollama-remote-access.md)).
 - **Need a key?** Ollama has none. Put an exact-match `Authorization: Bearer` check in Caddy or nginx in front of it: [docs/ollama-api-key.md](docs/ollama-api-key.md).
 - **Any website can talk to it if `OLLAMA_ORIGINS=*`.** Check it in one click: [browser check](https://munimv2.github.io/ollama-origins-check.html).
-- Guides: [Ollama API key (in this repo)](docs/ollama-api-key.md) · [Is my Ollama exposed?](https://munimv2.github.io/secure-ollama.html) · [Remote access without exposing it](https://munimv2.github.io/ollama-remote-access.html) · [Docker apps can't reach Ollama](https://munimv2.github.io/docker-ollama.html)
+- Guides: [Remote access without exposing it (in this repo)](docs/ollama-remote-access.md) · [Ollama API key (in this repo)](docs/ollama-api-key.md) · [Is my Ollama exposed?](https://munimv2.github.io/secure-ollama.html) · [Docker apps can't reach Ollama](https://munimv2.github.io/docker-ollama.html)
 
 ## LM Studio
 
 - **Default:** the local server listens on port 1234. "Serve on Local Network" makes it reachable from the LAN.
 - **Turn on "Require Authentication"** (LM Studio 0.4.0 and newer) before serving on the network, and give each client its own token.
 - **Test:** `curl --max-time 5 http://<LAN IP>:1234/v1/models` from another device should fail or return 401.
-- Guide: [Remote access without exposing it](https://munimv2.github.io/ollama-remote-access.html) (LM Studio section)
+- Guide: [Remote access without exposing it (in this repo)](docs/ollama-remote-access.md#lm-studio) (LM Studio section)
 
 ## Open WebUI
 
@@ -125,6 +125,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 
 ## Guides in this repo
 
+- [Use Ollama remotely without exposing it](docs/ollama-remote-access.md): SSH tunnel, Open WebUI over Tailscale Serve, why `tailscale serve 11434` gets 403 (Ollama's Host check) and two fixes, a LAN-only firewall rule for Linux and Windows, and LM Studio.
 - [Ollama API key: your local Ollama has none](docs/ollama-api-key.md): Caddy and nginx Bearer-key configs, tests including the bypass, and client settings for n8n, Open WebUI, the OpenAI SDK and ollama-python.
 - [vLLM `--api-key` doesn't cover every endpoint](docs/vllm-api-key.md): the routes it leaves open, an allowlist proxy for Caddy or nginx, and tests.
 - [LiteLLM proxy hardening](docs/litellm-hardening.md): the master key as Admin UI password, `LITELLM_SALT_KEY`, `EXPERIMENTAL_UI_LOGIN`, stdio MCP, and keeping port 4000 private.
