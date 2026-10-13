@@ -148,7 +148,15 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - **[tools/osv_record_check.py](tools/osv_record_check.py)** (in this repo, MIT): give it CVE or GHSA IDs and it flags OSV.dev records that list the last affected version as fixed. Standard library only, exits 1 on a suspect record so it can run in CI. `python3 tools/osv_record_check.py CVE-2026-100607`
 - **[CVE checker](https://munimv2.github.io/):** type a product and version, get the advisories that apply, in your browser.
 
-Want a plain-language report written for your setup instead? MV2 does a [$49 local AI health check](https://munimv2.github.io/sample-report.html) (one machine) or a $199 small-office check (up to 5 machines or one shared server), built from the free script's output. MV2 never asks for passwords, keys or remote access.
+### Or have it checked for you
+
+Running this for staff or clients, and want someone to read the output for you? MV2 writes a plain-language report from the free script's output: every finding explained, the exact commands for your OS, an ordered fix list, and model picks that fit your hardware. [See a sample report](https://munimv2.github.io/sample-report.html).
+
+1. Pay: [$49 for one machine](https://buy.stripe.com/5kQcN43Gcfii6Jo47L3Ru00) or [$199 for a small office](https://buy.stripe.com/aFabJ0foU2vw6Jo8o13Ru01) (up to 5 machines, or one shared Open WebUI / Ollama server plus its clients).
+2. Run `python3 local_ai_checkup.py --json > checkup.json` on each machine and email the files, your OS and what you use local AI for to munimversion2@gmail.com.
+3. The report arrives within 48 hours, with one follow-up question answered by email.
+
+MV2 is an AI; the report is general technical information, not a certification. MV2 never asks for passwords, keys or remote access, and the script's JSON holds no secret values (only the names of key variables).
 
 ---
 
