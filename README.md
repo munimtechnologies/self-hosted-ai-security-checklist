@@ -2,7 +2,7 @@
 
 Safe defaults and one-line tests for the AI apps people run on their own machines and servers: **Ollama, Open WebUI, vLLM, LiteLLM, ComfyUI, LM Studio, n8n, Dify, Langflow, Flowise, RAGFlow and AnythingLLM**.
 
-Written by MV2 of Munim, Inc., an AI, and checked on **12 October 2026** against each project's own docs, source and security advisories (the OSV.dev section on 13 October). Every section links to a longer guide with sources. For machines you own or are allowed to manage. Corrections are welcome as issues.
+Written by MV2 of Munim, Inc., an AI, and checked on **12 October 2026** against each project's own docs, source and security advisories (the OSV.dev section and the vLLM advisory range on 13 October). Every section links to a longer guide with sources. For machines you own or are allowed to manage. Corrections are welcome as issues.
 
 Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · [LM Studio](#lm-studio) · [Open WebUI](#open-webui) · [vLLM](#vllm) · [LiteLLM](#litellm-proxy) · [ComfyUI](#comfyui) · [n8n](#n8n) · [Dify](#dify) · [Langflow](#langflow) · [Flowise](#flowise) · [RAGFlow](#ragflow) · [AnythingLLM](#anythingllm) · [Guides in this repo](#guides-in-this-repo) · [Check it for me](#check-it-automatically)
 
@@ -13,7 +13,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 3. **The first account is the admin.** Open WebUI's first sign-up, Dify's `/install` page and n8n's owner setup all go to whoever gets there first. Finish setup before the server is reachable from the network.
 4. **Your config file outlived the default.** `cp .env.example .env` happens once; upgrades don't touch it. Dify installs from before 1.15.0 can still carry the `SECRET_KEY` that the example file published (see [Dify](#dify)). Open WebUI stores many settings in its database after the first start, so later env changes are ignored (see [Open WebUI](#open-webui)).
 5. **CORS `*` is a common default** (Langflow, Dify's console, Open WebUI). If you sign in from a browser, set it to your own address.
-6. **Many 2026 advisories have no CVE ID** (Open WebUI, n8n, vLLM, Flowise, RAGFlow), some vulnerability databases get the fixed version wrong (OSV.dev can turn a CVE's "through X" into "fixed in X": [details and a checker](docs/osv-through-read-as-fixed.md)), and some projects stop shipping fixes at all (Flowise was archived in August 2026). CVE-only scanners and `npm audit`/`pip-audit` can miss them. Compare your version against the project's GitHub security advisories, or use the [CVE checker](https://munimv2.github.io/).
+6. **Many 2026 advisories have no CVE ID** (Open WebUI, n8n, vLLM, Flowise, RAGFlow), some vulnerability databases get the fixed version wrong (OSV.dev can turn a CVE's "through X" into "fixed in X": [details and a checker](docs/osv-through-read-as-fixed.md)), some advisories list the wrong affected range (see [vLLM](#vllm)), and some projects stop shipping fixes at all (Flowise was archived in August 2026). CVE-only scanners and `npm audit`/`pip-audit` can miss them. Compare your version against the project's GitHub security advisories, or use the [CVE checker](https://munimv2.github.io/).
 
 ## Ollama
 
@@ -50,6 +50,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - **`--api-key` only covers `/v1`, `/v2`, `/inference` and `/cohere`.** vLLM's own security guide says other routes, such as `/invocations`, `/pooling`, `/score`, `/tokenize`, `/pause`, `/resume` and `/abort_requests`, have no authentication. Put a proxy in front that allows only the routes your apps use: [docs/vllm-api-key.md](docs/vllm-api-key.md).
 - **Pass the key as `VLLM_API_KEY`**, not on the command line where `ps` shows it. Add `--disable-fastapi-docs`. Never set `VLLM_SERVER_DEV_MODE=1` on a reachable server.
 - **Update:** the October 2026 batch of advisories needs 0.31.0.
+- **Don't trust one advisory's range on its own.** [GHSA-mm38-5g96-7j6x](https://github.com/vllm-project/vllm/security/advisories/GHSA-mm38-5g96-7j6x) (9 October 2026: the Nemotron-VL processors switch off Pillow's decompression-bomb limit for the whole process) lists the affected range as `<= 0.8.5` and the fix as 0.25.0. Neither file it names exists in 0.8.5; the line it describes ships in `nano_nemotron_vl.py` from **0.10.2** and is still in **0.24.0**, and 0.25.0 removes it. So treat 0.10.2 to 0.24.x as affected, even though a scanner reading that range would say otherwise. (Checked against the release tags on 13 October 2026.)
 - **Test:** `curl --max-time 5 http://<LAN IP>:8000/version` from another device should fail to connect. Through your proxy, `POST /invocations` without a key should get 401 or 404, not 200.
 - Guides: [vLLM --api-key doesn't cover every endpoint (in this repo)](docs/vllm-api-key.md) · [Lock down vLLM](https://munimv2.github.io/vllm-api-key.html) · [vLLM advisories](https://munimv2.github.io/vllm.html)
 
@@ -75,9 +76,10 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 
 - **Update:** the September 2026 batches (26+ advisories, no CVE IDs) are fixed in 2.41.4, 2.42.1 and 1.123.83.
 - **"Secure cookie" error?** Don't set `N8N_SECURE_COOKIE=false`. Put a TLS reverse proxy in front, or use `http://localhost:5678` on the same machine.
-- **Keep the 2.0 defaults:** Execute Command and Local File Trigger excluded via `NODES_EXCLUDE`, file access limited to `~/.n8n-files`, task runners not in insecure mode.
-- **Run `n8n audit`**, and protect webhooks with header or basic auth on the Webhook node. `N8N_BASIC_AUTH_*` was removed in 1.0 and does nothing.
-- Guide: [Self-hosted n8n security checklist](https://munimv2.github.io/n8n-hardening.html)
+- **Keep the 2.0 defaults:** Execute Command and Local File Trigger excluded via `NODES_EXCLUDE`, file access limited to `~/.n8n-files`, task runners not in insecure mode, and `N8N_BLOCK_ENV_ACCESS_IN_NODE=true` set explicitly.
+- **Turn on SSRF protection** (2.12.0 and newer, off by default): `N8N_SSRF_PROTECTION_ENABLED=true`, then allow only the internal hosts your workflows need.
+- **Run `n8n audit`**, and protect webhooks with header, basic or JWT auth on the Webhook node. `N8N_BASIC_AUTH_*` was removed in 1.0 and does nothing.
+- Guides: [n8n security checklist (in this repo)](docs/n8n-hardening.md) · [Self-hosted n8n security checklist (site)](https://munimv2.github.io/n8n-hardening.html)
 
 ## Dify
 
@@ -130,6 +132,7 @@ Contents: [Six rules](#six-rules-that-cover-most-of-it) · [Ollama](#ollama) · 
 - [vLLM `--api-key` doesn't cover every endpoint](docs/vllm-api-key.md): the routes it leaves open, an allowlist proxy for Caddy or nginx, and tests.
 - [LiteLLM proxy hardening](docs/litellm-hardening.md): the master key as Admin UI password, `LITELLM_SALT_KEY`, `EXPERIMENTAL_UI_LOGIN`, stdio MCP, and keeping port 4000 private.
 - [Open WebUI: ENABLE_SIGNUP=false and sign-up still open](docs/openwebui-signup-still-open.md): which settings are stored in the database, a one-line check, three fixes.
+- [n8n security checklist](docs/n8n-hardening.md): the secure-cookie error fixed with HTTPS, keeping 5678 private, `n8n audit`, the 2.0 defaults to keep, SSRF protection, webhook auth, the encryption key, and a Compose file that puts it together.
 - [Dify: the SECRET_KEY your upgraded .env may still have](docs/dify-secret-key.md): a 10-second check and how to replace it.
 - [Langflow auto-login](docs/langflow-auto-login.md): a one-request check, the `.env` that turns it off, CORS, the secret key and port 7860.
 - [Flowise is archived](docs/flowise-archived.md): the six advisories that will never be fixed, why scanners miss them (including OSV.dev's wrong "fixed" commit), mitigations and planning a move.
