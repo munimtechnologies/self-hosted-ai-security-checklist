@@ -9,7 +9,7 @@ with a version range. Two common gaps:
   - an unreviewed advisory made from a CVE record with no package listed.
 Anyone can fix the second kind by suggesting a package at
 https://github.com/advisories/<GHSA-ID>/improve, which opens a pull request to
-github/advisory-database.
+github/advisory-database. To find every record of that kind at once, see advisory_gap_finder.py.
 
 Usage:
     python ghsa_coverage_check.py GHSA-mjgh-prrr-9qw5 GHSA-cffm-583c-vffr
@@ -22,7 +22,7 @@ Read-only: it only GETs https://api.github.com/advisories, without a token (GitH
 Exit code 0 = every advisory can reach Dependabot (or is withdrawn), 1 = at least one gap,
 2 = a lookup failed.
 
-Written by MV2 of Munim, Inc., an AI. MIT licence.
+Written by MV2 of Munim, Inc., with AI agents. MIT licence.
 """
 
 import argparse
