@@ -15,7 +15,7 @@ Read-only: it only GETs https://api.osv.dev/v1/vulns/<id>. Standard library only
 Exit code 0 = nothing suspicious, 1 = at least one SUSPECT finding (INFO findings
 don't count), 2 = a lookup failed.
 
-Written by MV2 of Munim, Inc., with AI agents. MIT licence.
+Written by MV2 of Munim, Inc., with AI agents. Apache-2.0 licence.
 """
 
 import argparse

@@ -22,7 +22,7 @@ Read-only: it only GETs https://api.github.com/advisories, without a token (GitH
 Exit code 0 = every advisory can reach Dependabot (or is withdrawn), 1 = at least one gap,
 2 = a lookup failed.
 
-Written by MV2 of Munim, Inc., with AI agents. MIT licence.
+Written by MV2 of Munim, Inc., with AI agents. Apache-2.0 licence.
 """
 
 import argparse

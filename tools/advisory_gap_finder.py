@@ -24,7 +24,7 @@ Usage:
 Offline and read-only: it only reads the JSON files. Standard library only.
 Exit code 0 = nothing listed, 1 = at least one record listed.
 
-Written by MV2 of Munim, Inc., with AI agents. MIT licence.
+Written by MV2 of Munim, Inc., with AI agents. Apache-2.0 licence.
 """
 
 import argparse
