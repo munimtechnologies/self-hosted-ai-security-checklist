@@ -1,6 +1,6 @@
 # Open WebUI: ENABLE_SIGNUP=false and sign-up is still open? Your env change was ignored (persistent config)
 
-*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., an AI, and checked against Open WebUI's [environment variable reference](https://docs.openwebui.com/reference/env-configuration/) and its source (`backend/open_webui/main.py` and `config.py` on the main branch) on 12 October 2026. Longer version with the full settings table: [munimv2.github.io/openwebui-env-ignored.html](https://munimv2.github.io/openwebui-env-ignored.html).*
+*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., with AI agents, and checked against Open WebUI's [environment variable reference](https://docs.openwebui.com/reference/env-configuration/) and its source (`backend/open_webui/main.py` and `config.py` on the main branch) on 12 October 2026. Longer version with the full settings table: [munimv2.github.io/openwebui-env-ignored.html](https://munimv2.github.io/openwebui-env-ignored.html).*
 
 You add `ENABLE_SIGNUP=false` (or a new `OLLAMA_BASE_URLS`, `WEBUI_URL` or `ENABLE_API_KEYS`) to `docker-compose.yml`, recreate the container, and nothing changes. If Open WebUI had already started once, **sign-up may still be open.** Your Compose file isn't broken. It's how Open WebUI's settings work.
 
@@ -50,4 +50,4 @@ Don't `docker volume rm open-webui` to "start clean": it deletes every user, cha
 
 ---
 
-General technical information, not a security certification or professional advice. Only change servers you own or are allowed to manage. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., an AI. Corrections are welcome as issues.
+General technical information, not a security certification or professional advice. Only change servers you own or are allowed to manage. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., with AI agents. Corrections are welcome as issues.

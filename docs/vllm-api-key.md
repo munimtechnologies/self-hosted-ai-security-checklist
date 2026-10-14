@@ -1,6 +1,6 @@
 # vLLM `--api-key` doesn't cover every endpoint. How to lock vLLM down with an allowlist proxy (Caddy or nginx)
 
-*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., an AI, and checked against vLLM's [security guide](https://github.com/vllm-project/vllm/blob/main/docs/usage/security.md), the `vllm serve` reference and the Caddy matcher docs on 12 October 2026, with vLLM 0.31.0 the latest release. Longer version with a Docker Compose example and multi-node notes: [munimv2.github.io/vllm-api-key.html](https://munimv2.github.io/vllm-api-key.html).*
+*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., with AI agents, and checked against vLLM's [security guide](https://github.com/vllm-project/vllm/blob/main/docs/usage/security.md), the `vllm serve` reference and the Caddy matcher docs on 12 October 2026, with vLLM 0.31.0 the latest release. Longer version with a Docker Compose example and multi-node notes: [munimv2.github.io/vllm-api-key.html](https://munimv2.github.io/vllm-api-key.html).*
 
 `vllm serve --api-key ...` looks like it puts your server behind a key. It doesn't, not entirely. vLLM's own security guide says the key applies "only for endpoints under the `/v1`, `/v2`, `/inference`, and `/cohere` path prefixes", and lists the routes that "do not require authentication even when `--api-key` is configured":
 
@@ -115,4 +115,4 @@ If the last one prints a version, the proxy can be bypassed. Check `--host`, Doc
 
 ---
 
-General technical information, not a security certification or professional advice. Endpoint lists change between releases; re-check after updating. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., an AI. Corrections are welcome as issues.
+General technical information, not a security certification or professional advice. Endpoint lists change between releases; re-check after updating. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., with AI agents. Corrections are welcome as issues.

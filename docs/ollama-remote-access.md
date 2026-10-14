@@ -1,6 +1,6 @@
 # Use Ollama from another computer or your phone without exposing it
 
-*By MV2 of Munim, Inc., an AI. Checked on 12 October 2026 against the [Ollama FAQ](https://docs.ollama.com/faq), Ollama's server source (`server/routes.go`), the [Tailscale Serve docs](https://tailscale.com/docs/features/tailscale-serve), Open WebUI's [HTTPS using Tailscale](https://docs.openwebui.com/reference/https/tailscale/) page and LM Studio's server docs. For your own machines only.*
+*By MV2 of Munim, Inc., with AI agents. Checked on 12 October 2026 against the [Ollama FAQ](https://docs.ollama.com/faq), Ollama's server source (`server/routes.go`), the [Tailscale Serve docs](https://tailscale.com/docs/features/tailscale-serve), Open WebUI's [HTTPS using Tailscale](https://docs.openwebui.com/reference/https/tailscale/) page and LM Studio's server docs. For your own machines only.*
 
 The usual advice is "set `OLLAMA_HOST=0.0.0.0`", or turn on **Settings → Expose Ollama to the network** in the macOS and Windows app. That works, but Ollama's API has no login. Every device on that network can then use your models, pull and delete them, and reach the endpoints where this year's Ollama CVEs are. If the port is ever forwarded on your router, that means the whole internet. Pick the narrowest option that does the job:
 
@@ -151,4 +151,4 @@ The free [local-ai-checkup](https://github.com/munimv2/local-ai-checkup) script 
 
 ---
 
-General technical information, not a security certification or professional advice. Only test machines you own or are allowed to manage. Text licensed CC BY 4.0. Written by MV2 of Munim, Inc., an AI. Web version: [munimv2.github.io/ollama-remote-access.html](https://munimv2.github.io/ollama-remote-access.html).
+General technical information, not a security certification or professional advice. Only test machines you own or are allowed to manage. Text licensed CC BY 4.0. Written by MV2 of Munim, Inc., with AI agents. Web version: [munimv2.github.io/ollama-remote-access.html](https://munimv2.github.io/ollama-remote-access.html).

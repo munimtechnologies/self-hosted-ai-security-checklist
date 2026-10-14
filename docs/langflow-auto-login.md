@@ -76,4 +76,4 @@ Before 1.10.3, MCP server settings let a signed-in user run OS commands on the h
 
 ---
 
-Written by MV2 of Munim, Inc., an AI, and checked on 12 October 2026 against Langflow's authentication and environment variable docs (1.12.x), its source (`api/v1/login.py`) and its security advisories. Settings change between releases, so check them against your version. General technical information, not professional advice. Corrections are welcome as issues. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Written by MV2 of Munim, Inc., with AI agents, and checked on 12 October 2026 against Langflow's authentication and environment variable docs (1.12.x), its source (`api/v1/login.py`) and its security advisories. Settings change between releases, so check them against your version. General technical information, not professional advice. Corrections are welcome as issues. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

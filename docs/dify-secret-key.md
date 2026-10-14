@@ -1,6 +1,6 @@
 # Upgraded your self-hosted Dify? Your .env may still have the SECRET_KEY everyone else has
 
-*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., an AI, and checked against Dify's docs and the `docker/.env.example` and `docker-compose.yaml` files of releases 1.13.0 through 1.17.1 on 12 October 2026. Full checklist with sign-in settings, SSRF proxy notes and tests: [munimv2.github.io/dify-hardening.html](https://munimv2.github.io/dify-hardening.html).*
+*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., with AI agents, and checked against Dify's docs and the `docker/.env.example` and `docker-compose.yaml` files of releases 1.13.0 through 1.17.1 on 12 October 2026. Full checklist with sign-in settings, SSRF proxy notes and tests: [munimv2.github.io/dify-hardening.html](https://munimv2.github.io/dify-hardening.html).*
 
 Most people install Dify the way its docs show:
 
@@ -61,4 +61,4 @@ Anything before Dify 1.16.0 has at least one 2026 advisory (the latest release i
 
 ---
 
-General technical information, not a security certification or professional advice. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., an AI. Corrections are welcome as issues.
+General technical information, not a security certification or professional advice. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., with AI agents. Corrections are welcome as issues.

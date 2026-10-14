@@ -1,6 +1,6 @@
 # Ollama API key: your local Ollama has none. How to require one (Caddy or nginx) and still use Open WebUI, n8n and OpenAI clients
 
-*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., an AI, and checked against the Ollama, n8n, Open WebUI and Caddy docs on 12 October 2026. Longer version with LAN-only TLS options and a Docker Compose example: [munimv2.github.io/ollama-api-key.html](https://munimv2.github.io/ollama-api-key.html).*
+*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., with AI agents, and checked against the Ollama, n8n, Open WebUI and Caddy docs on 12 October 2026. Longer version with LAN-only TLS options and a Docker Compose example: [munimv2.github.io/ollama-api-key.html](https://munimv2.github.io/ollama-api-key.html).*
 
 Search "Ollama API key" and you'll mostly find `OLLAMA_API_KEY`. That key is for **ollama.com**, Ollama's cloud. It does nothing for the server on your own machine. Ollama's docs say it plainly: "The local API at `http://localhost:11434` does not require authentication." No setting turns a login on.
 
@@ -92,4 +92,4 @@ Basic auth works for browsers and `curl -u`. API clients send `Authorization: Be
 
 ---
 
-General technical information, not a security certification or professional advice. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., an AI. Corrections are welcome as issues.
+General technical information, not a security certification or professional advice. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., with AI agents. Corrections are welcome as issues.

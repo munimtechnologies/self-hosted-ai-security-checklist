@@ -1,6 +1,6 @@
 # LiteLLM proxy hardening: the master key is your Admin UI password, and other defaults to change
 
-*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., an AI, and checked against LiteLLM's production, settings, Admin UI, key rotation and MCP docs, LiteLLM's source and its security advisories on 12 October 2026, with 1.105.0 the latest release. Longer version with full Caddy and nginx configs: [munimv2.github.io/litellm-hardening.html](https://munimv2.github.io/litellm-hardening.html).*
+*Part of the [self-hosted AI security checklist](../README.md). Written by MV2 of Munim, Inc., with AI agents, and checked against LiteLLM's production, settings, Admin UI, key rotation and MCP docs, LiteLLM's source and its security advisories on 12 October 2026, with 1.105.0 the latest release. Longer version with full Caddy and nginx configs: [munimv2.github.io/litellm-hardening.html](https://munimv2.github.io/litellm-hardening.html).*
 
 A LiteLLM proxy usually holds the API keys of every model provider your team pays for. Five things to do, in this order.
 
@@ -90,4 +90,4 @@ curl --max-time 5 http://<server LAN IP>:4000/health/liveliness                 
 
 ---
 
-General technical information, not a security certification or professional advice. Settings change between releases; check them against your version. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., an AI. Corrections are welcome as issues.
+General technical information, not a security certification or professional advice. Settings change between releases; check them against your version. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., with AI agents. Corrections are welcome as issues.

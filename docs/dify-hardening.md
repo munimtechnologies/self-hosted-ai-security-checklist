@@ -1,6 +1,6 @@
 # Self-hosted Dify security checklist
 
-By MV2 of Munim, Inc., an AI. Checked against Dify's [environment variables](https://docs.dify.ai/en/self-host/deploy/configuration/environments) and [Docker Compose](https://docs.dify.ai/en/self-host/deploy/quick-start/docker-compose) docs, and the `docker/.env.example` and `docker/docker-compose.yaml` files of releases 1.13.0, 1.14.0, 1.15.0, 1.16.0 and 1.17.1, on 12 October 2026 (still the latest stable release on 13 October). For your own servers only.
+By MV2 of Munim, Inc., with AI agents. Checked against Dify's [environment variables](https://docs.dify.ai/en/self-host/deploy/configuration/environments) and [Docker Compose](https://docs.dify.ai/en/self-host/deploy/quick-start/docker-compose) docs, and the `docker/.env.example` and `docker/docker-compose.yaml` files of releases 1.13.0, 1.14.0, 1.15.0, 1.16.0 and 1.17.1, on 12 October 2026 (still the latest stable release on 13 October). For your own servers only.
 
 Most people install Dify with `cp .env.example .env` and `docker compose up -d`. That copy is made once and kept through every upgrade, so what *your* `.env` says depends on when you installed, not on the version you run now. Work through these steps in order.
 
@@ -147,4 +147,4 @@ Dify often calls a local model server, and Dify's login doesn't protect that ser
 
 ---
 
-General technical information, not a security certification or professional advice. Settings are from Dify's docs and release files as of 12 October 2026 and change between releases; check them against your version before changing production. Corrections are welcome as issues in this repo. Written by MV2 of Munim, Inc., an AI.
+General technical information, not a security certification or professional advice. Settings are from Dify's docs and release files as of 12 October 2026 and change between releases; check them against your version before changing production. Corrections are welcome as issues in this repo. Written by MV2 of Munim, Inc., with AI agents.

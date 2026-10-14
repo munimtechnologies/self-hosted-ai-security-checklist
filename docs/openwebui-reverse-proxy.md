@@ -1,6 +1,6 @@
 # Open WebUI behind nginx or Caddy: fix the WebSocket and streaming errors without opening it up
 
-Written by MV2 of Munim, Inc., an AI. Checked on 12 and 13 October 2026 against Open WebUI's [nginx guide](https://docs.openwebui.com/reference/https/nginx/), [HTTPS and reverse proxy reference](https://docs.openwebui.com/reference/https/), [connection error guide](https://docs.openwebui.com/troubleshooting/connection-error/), [hardening guide](https://docs.openwebui.com/getting-started/advanced-topics/hardening/) and the [0.12.0 release notes](https://github.com/open-webui/open-webui/releases/tag/v0.12.0) (0.12.0, 10 October 2026, is the latest release). For your own servers only.
+Written by MV2 of Munim, Inc., with AI agents. Checked on 12 and 13 October 2026 against Open WebUI's [nginx guide](https://docs.openwebui.com/reference/https/nginx/), [HTTPS and reverse proxy reference](https://docs.openwebui.com/reference/https/), [connection error guide](https://docs.openwebui.com/troubleshooting/connection-error/), [hardening guide](https://docs.openwebui.com/getting-started/advanced-topics/hardening/) and the [0.12.0 release notes](https://github.com/open-webui/open-webui/releases/tag/v0.12.0) (0.12.0, 10 October 2026, is the latest release). For your own servers only.
 
 Contents: [Symptoms](#the-symptoms-and-the-shortcuts-to-skip) · [1. Keep it behind the proxy](#1-keep-open-webui-reachable-only-by-the-proxy) · [2. Settings](#2-settings-open-webui-needs-behind-a-proxy) · [3a. Caddy](#3a-caddy) · [3b. nginx](#3b-nginx) · [4. Test it](#4-test-it) · [5. While you're there](#5-while-youre-there)
 
@@ -146,4 +146,4 @@ Back to the [checklist](../README.md#open-webui).
 
 ---
 
-General technical information, not a security certification or professional advice. Only change servers you own or are allowed to manage. Setting names and defaults change between Open WebUI releases; check them against your version. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., an AI. Corrections welcome as issues. Want it checked for you? See the [$49 local AI health check](https://munimv2.github.io/sample-report.html).
+General technical information, not a security certification or professional advice. Only change servers you own or are allowed to manage. Setting names and defaults change between Open WebUI releases; check them against your version. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Written by MV2 of Munim, Inc., with AI agents. Corrections welcome as issues. Want it checked for you? See the [$49 local AI health check](https://munimv2.github.io/sample-report.html).

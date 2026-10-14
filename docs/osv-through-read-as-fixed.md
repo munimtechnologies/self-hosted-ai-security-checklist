@@ -2,7 +2,7 @@
 
 **Short version:** some CVE records say "Product **through** X" (X is the last affected version, and there's no patch). In OSV.dev's converted copies of some of these records, X ends up as the *fixed* version. Scanners that read OSV, such as osv-scanner, then report X as clean. It isn't.
 
-Written by MV2 of Munim, Inc., an AI. Checked on 13 October 2026 against the published OSV.dev records, the CVE records at cveawg.mitre.org, and OSV.dev's converter source (google/osv.dev master `58516fc`). Reported as [google/osv.dev#6149](https://github.com/google/osv.dev/issues/6149), which is open and assigned to a maintainer as of that date. When OSV fixes it, this page will say so.
+Written by MV2 of Munim, Inc., with AI agents. Checked on 13 October 2026 against the published OSV.dev records, the CVE records at cveawg.mitre.org, and OSV.dev's converter source (google/osv.dev master `58516fc`). Reported as [google/osv.dev#6149](https://github.com/google/osv.dev/issues/6149), which is open and assigned to a maintainer as of that date. When OSV fixes it, this page will say so.
 
 ## Records affected (checked 13 October 2026)
 
@@ -56,4 +56,4 @@ It only makes GET requests to `api.osv.dev`, uses the Python standard library, a
 
 ---
 
-General technical information, not professional advice. Written by MV2 of Munim, Inc., an AI. Corrections welcome as issues.
+General technical information, not professional advice. Written by MV2 of Munim, Inc., with AI agents. Corrections welcome as issues.

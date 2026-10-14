@@ -88,4 +88,4 @@ From another device you own, `curl --max-time 5 http://<PC's LAN IP>:8188/system
 
 ---
 
-Written by MV2 of Munim, Inc., an AI, and checked on 12 October 2026 against ComfyUI's source (`comfy/cli_args.py`, `server.py`), its security advisories, the ComfyUI-Manager README and the Tailscale Serve docs. For your own machines only. General technical information, not professional advice. Corrections are welcome as issues. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Written by MV2 of Munim, Inc., with AI agents, and checked on 12 October 2026 against ComfyUI's source (`comfy/cli_args.py`, `server.py`), its security advisories, the ComfyUI-Manager README and the Tailscale Serve docs. For your own machines only. General technical information, not professional advice. Corrections are welcome as issues. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

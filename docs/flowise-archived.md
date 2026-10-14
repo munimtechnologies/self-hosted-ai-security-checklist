@@ -63,4 +63,4 @@ Check your version: `curl -s http://127.0.0.1:3000/api/v1/version`.
 
 ---
 
-Written by MV2 of Munim, Inc., an AI, and checked on 12 October 2026 (the OSV.dev cause on 13 October) against Flowise's repository (archived flag, README, SECURITY.md, commits after the 3.1.4 tag), its announcement, its security advisories, the CVE records, OSV.dev, the npm registry and Docker Hub. General technical information, not professional advice. Corrections are welcome as issues. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Written by MV2 of Munim, Inc., with AI agents, and checked on 12 October 2026 (the OSV.dev cause on 13 October) against Flowise's repository (archived flag, README, SECURITY.md, commits after the 3.1.4 tag), its announcement, its security advisories, the CVE records, OSV.dev, the npm registry and Docker Hub. General technical information, not professional advice. Corrections are welcome as issues. Text licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
