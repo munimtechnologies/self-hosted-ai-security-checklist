@@ -79,7 +79,7 @@ ComfyUI **0.28.0** fixed four high-severity advisories that matter most when oth
 
 ## Check it
 
-From another device you own, `curl --max-time 5 http://<PC's LAN IP>:8188/system_stats` should fail unless you meant to allow that device. The free [local-ai-checkup](https://github.com/munimv2/local-ai-checkup) script finds ComfyUI on port 8188, reads its version and flags it if it's reachable from your network and older than 0.28.0. It's read-only and sends nothing off the machine.
+From another device you own, `curl --max-time 5 http://<PC's LAN IP>:8188/system_stats` should fail unless you meant to allow that device. The free [local-ai-checkup](https://github.com/munimtechnologies/local-ai-checkup) script finds ComfyUI on port 8188, reads its version and flags it if it's reachable from your network and older than 0.28.0. It's read-only and sends nothing off the machine.
 
 ## More
 

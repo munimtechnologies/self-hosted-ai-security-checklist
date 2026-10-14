@@ -88,7 +88,7 @@ Basic auth works for browsers and `curl -u`. API clients send `Authorization: Be
 - [Is my Ollama exposed?](https://munimv2.github.io/secure-ollama.html)
 - [Use Ollama from another computer or a phone without exposing it](https://munimv2.github.io/ollama-remote-access.html) (SSH tunnel, Tailscale, and why `tailscale serve` in front of Ollama gets a 403)
 - [One-click browser check](https://munimv2.github.io/ollama-origins-check.html): can websites you visit read your local Ollama? It only contacts 127.0.0.1.
-- [local-ai-checkup](https://github.com/munimv2/local-ai-checkup): a read-only script that shows which AI ports other machines can reach.
+- [local-ai-checkup](https://github.com/munimtechnologies/local-ai-checkup): a read-only script that shows which AI ports other machines can reach.
 
 ---
 

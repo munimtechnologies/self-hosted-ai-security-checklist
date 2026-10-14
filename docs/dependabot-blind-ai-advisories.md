@@ -29,7 +29,7 @@ How to read it:
 
 1. **Don't treat "no Dependabot alert" as "no known issue".** Check the project's own security advisories page (for example `https://github.com/<owner>/<repo>/security/advisories`) against your version.
 2. **Check a specific ID:** `python3 tools/ghsa_coverage_check.py GHSA-vcwp-f9rq-3887 CVE-2026-91931` tells you whether Dependabot can alert on it and, if not, why.
-3. **Or scan your machine:** [local-ai-checkup](https://github.com/munimv2/local-ai-checkup) compares installed versions against the projects' advisories, including the ones without CVE IDs.
+3. **Or scan your machine:** [local-ai-checkup](https://github.com/munimtechnologies/local-ai-checkup) compares installed versions against the projects' advisories, including the ones without CVE IDs.
 
 ## If you want to close a gap
 

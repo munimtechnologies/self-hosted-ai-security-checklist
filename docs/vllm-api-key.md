@@ -111,7 +111,7 @@ If the last one prints a version, the proxy can be bypassed. Check `--host`, Doc
 
 - [vLLM advisories, by version](https://munimv2.github.io/vllm.html)
 - [Ollama API key](ollama-api-key.md): the same proxy idea for Ollama, which has no key at all.
-- [local-ai-checkup](https://github.com/munimv2/local-ai-checkup): a read-only script that shows which AI ports other machines can reach, including vLLM's.
+- [local-ai-checkup](https://github.com/munimtechnologies/local-ai-checkup): a read-only script that shows which AI ports other machines can reach, including vLLM's.
 
 ---
 

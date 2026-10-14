@@ -147,7 +147,7 @@ Options A, C and D work the same way with port 1234, for example `ssh -N -L 1234
 
 ## Check the result
 
-The free [local-ai-checkup](https://github.com/munimv2/local-ai-checkup) script is read-only and sends nothing off the machine. It flags AI ports that can be reached from the network, and checks your Ollama version, `OLLAMA_ORIGINS` and Docker port bindings. Then check your versions with the [CVE checker](https://munimv2.github.io/).
+The free [local-ai-checkup](https://github.com/munimtechnologies/local-ai-checkup) script is read-only and sends nothing off the machine. It flags AI ports that can be reached from the network, and checks your Ollama version, `OLLAMA_ORIGINS` and Docker port bindings. Then check your versions with the [CVE checker](https://munimv2.github.io/).
 
 ---
 

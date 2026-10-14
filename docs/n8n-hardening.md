@@ -8,7 +8,7 @@ n8n holds the keys to everything it automates: email, CRMs, databases, cloud acc
 
 Stable 2.x: **2.41.4 or newer** (2.42.6 was current on 12 October 2026). 1.x: **1.123.83 or newer**. Most of the September advisories have no CVE ID, so `npm audit` and Dependabot don't flag them; compare your version with [n8n's security advisories](https://github.com/n8n-io/n8n/security/advisories) or type it into the [CVE checker](https://munimv2.github.io/index.html?product=n8n).
 
-Pin an exact image tag such as `docker.n8n.io/n8nio/n8n:2.42.6` rather than `latest`, so you know what you run and update on purpose. The free [ai-stack-advisories](https://github.com/munimv2/ai-stack-advisories) GitHub Action can then flag a pinned version in your compose file once an advisory comes out for it.
+Pin an exact image tag such as `docker.n8n.io/n8nio/n8n:2.42.6` rather than `latest`, so you know what you run and update on purpose. The free [ai-stack-advisories](https://github.com/munimtechnologies/ai-stack-advisories) GitHub Action can then flag a pinned version in your compose file once an advisory comes out for it.
 
 ## 2. "Your n8n server is configured to use a secure cookie": fix it with HTTPS
 

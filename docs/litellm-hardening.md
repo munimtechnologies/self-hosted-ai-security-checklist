@@ -86,7 +86,7 @@ curl --max-time 5 http://<server LAN IP>:4000/health/liveliness                 
 
 - [LiteLLM advisories, by version](https://munimv2.github.io/litellm.html)
 - [vLLM `--api-key` doesn't cover every endpoint](vllm-api-key.md) and [Ollama has no API key](ollama-api-key.md): LiteLLM's keys don't protect a backend that can be reached directly.
-- [local-ai-checkup](https://github.com/munimv2/local-ai-checkup): a read-only script that reports a LiteLLM proxy on port 4000 other machines can reach, with its version and the advisories that apply.
+- [local-ai-checkup](https://github.com/munimtechnologies/local-ai-checkup): a read-only script that reports a LiteLLM proxy on port 4000 other machines can reach, with its version and the advisories that apply.
 
 ---
 

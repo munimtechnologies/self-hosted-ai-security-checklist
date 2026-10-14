@@ -133,7 +133,7 @@ curl --max-time 5 http://<server LAN IP>:80/
 nc -vz -w 5 <server LAN IP> 5003
 ```
 
-The free [local-ai-checkup](https://github.com/munimv2/local-ai-checkup) script reads the version of a running `langgenius/dify-api` container, lists the advisories that apply, and flags AI containers, such as Dify's plugin daemon, whose ports are published on every interface.
+The free [local-ai-checkup](https://github.com/munimtechnologies/local-ai-checkup) script reads the version of a running `langgenius/dify-api` container, lists the advisories that apply, and flags AI containers, such as Dify's plugin daemon, whose ports are published on every interface.
 
 ## Mistakes to avoid
 
